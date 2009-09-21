@@ -81,6 +81,20 @@ my %measurements = (
 			}
 		},
 	},
+	'composite_real_memory_usage' => {
+		unit_of_measurement => '%',
+		parser => sub {
+			my $free_pages = `/sbin/sysctl -n vm.stats.vm.v_free_count`;
+			my $cached_pages = `/sbin/sysctl -n vm.stats.vm.v_cache_count`;
+			my $active_pages = `/sbin/sysctl -n vm.stats.vm.v_active_count`;
+			chomp $free_pages;
+			chomp $cached_pages;
+			chomp $active_pages;
+			### Not multiplying by page size here - units cancel through division
+			my $used_memory = 100 - ($free_pages + $cached_pages) / $active_pages * 100;
+			return sprintf('%3.2f',$used_memory);
+		},
+    },
 	'real_memory_active' => {
 		unit_of_measurement => 'kb',
 		parser => sub {
