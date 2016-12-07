@@ -11,8 +11,8 @@ check_freebsd_memory - Nagios plugin to report on FreeBSD memory usage
 
 use strict;
 
-use Data::Dumper;   ### For generating debug output in verbose mode
-use Nagios::Plugin; ### For communicating with the nagios server
+use Data::Dumper;               ### For generating debug output in verbose mode
+use Nagios::Monitoring::Plugin; ### For communicating with the nagios server
 
 
 ### Know what we're working with
